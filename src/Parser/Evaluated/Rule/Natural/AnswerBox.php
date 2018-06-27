@@ -31,13 +31,12 @@ class AnswerBox implements ParsingRuleInterface
     {
         return [
             'title'   => function () use ($dom, $node) {
-                $aTag = $dom->cssQuery('.rc .r a h3', $node)
+                $titleTag = $dom->cssQuery('.rc .r h3', $node)
                     ->item(0);
-                if (!$aTag) {
-                    // TODO ERROR
+                if (!$titleTag) {
                     return;
                 }
-                return $aTag->nodeValue;
+                return $titleTag->nodeValue;
             },
             'url'     => function () use ($dom, $node) {
                 $aTag = $dom->cssQuery('.rc .r a', $node)
