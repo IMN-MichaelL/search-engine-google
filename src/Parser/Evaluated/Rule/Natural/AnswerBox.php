@@ -31,7 +31,7 @@ class AnswerBox implements ParsingRuleInterface
     {
         return [
             'title'   => function () use ($dom, $node) {
-                $aTag = $dom->cssQuery('.rc .r a', $node)
+                $aTag = $dom->cssQuery('.rc .r a h3', $node)
                     ->item(0);
                 if (!$aTag) {
                     // TODO ERROR

@@ -32,11 +32,15 @@ class ClassicalResult implements ParsingRuleInterface
         // find the title/url
         /* @var $aTag \DOMElement */
         $aTag=$dom
-            ->xpathQuery("descendant::h3[@class='r'][1]/a", $node)
+            ->xpathQuery("descendant::div[@class='r'][1]/a", $node)
             ->item(0);
         if (!$aTag) {
             return;
         }
+
+        $titleTag=$dom
+            ->xpathQuery("descendant::div[@class='r'][1]/a/h3", $node)
+            ->item(0);
 
         $destinationTag = $dom
             ->cssQuery('div.f>cite', $node)
@@ -47,7 +51,7 @@ class ClassicalResult implements ParsingRuleInterface
             ->item(0);
 
         return [
-            'title'   => $aTag->nodeValue,
+            'title'   => $titleTag->nodeValue,
             'url'     => $dom->getUrl()->resolveAsString($aTag->getAttribute('href')),
             'destination' => $destinationTag ? $destinationTag->nodeValue : null,
             // trim needed for mobile results coming with an initial space
