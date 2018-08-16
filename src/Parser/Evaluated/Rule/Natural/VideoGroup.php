@@ -20,7 +20,7 @@ class VideoGroup implements ParsingRuleInterface
 
     public function match(GoogleDom $dom, \Serps\Core\Dom\DomElement $node)
     {
-        if ($dom->cssQuery('._Fzo', $node)->length == 1) {
+        if ($dom->cssQuery('.BFJZOc', $node)->length == 1) {
             return self::RULE_MATCH_MATCHED;
         }
         return self::RULE_MATCH_NOMATCH;
@@ -33,16 +33,19 @@ class VideoGroup implements ParsingRuleInterface
 
             'videos'    => function () use ($node, $dom) {
                 $items = [];
-                $nodes = $dom->cssQuery('._ERj', $node);
+                $nodes = $dom->cssQuery('.P94G9b', $node);
 
                 foreach ($nodes as $node) {
                     $items[] = new BaseResult(NaturalResultType::VIDEO_GROUP_VIDEO, [
                         'image' => function () use ($node, $dom) {
                             $data = $dom->cssQuery('g-img img', $node)->getNodeAt(0)->getAttribute('src');
-                            return MediaFactory::createMediaFromSrc($data);
+                            if ($data) {
+                                return MediaFactory::createMediaFromSrc($data);
+                            }
+                            return null;
                         },
                         'title' => function () use ($node, $dom) {
-                            return $dom->cssQuery('._IRj', $node)->getNodeAt(0)->getNodeValue();
+                            return $dom->cssQuery('.wCIBKb', $node)->getNodeAt(0)->getNodeValue();
                         },
                         'url' => function () use ($node, $dom) {
                             return $dom->cssQuery('g-inner-card a', $node)->getNodeAt(0)->getAttribute('href');

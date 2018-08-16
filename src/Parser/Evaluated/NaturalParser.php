@@ -12,6 +12,7 @@ use Serps\SearchEngine\Google\Parser\Evaluated\Rule\Natural\Classical\ClassicalR
 use Serps\SearchEngine\Google\Parser\Evaluated\Rule\Natural\Divider;
 use Serps\SearchEngine\Google\Parser\Evaluated\Rule\Natural\Flight;
 use Serps\SearchEngine\Google\Parser\Evaluated\Rule\Natural\ImageGroup;
+use Serps\SearchEngine\Google\Parser\Evaluated\Rule\Natural\VideoGroup;
 use Serps\SearchEngine\Google\Parser\Evaluated\Rule\Natural\InTheNews;
 use Serps\SearchEngine\Google\Parser\Evaluated\Rule\Natural\Map;
 use Serps\SearchEngine\Google\Parser\Evaluated\Rule\Natural\Classical\ClassicalCardsResult;
@@ -40,6 +41,7 @@ class NaturalParser extends AbstractParser
             new ClassicalResult(),
             new ClassicalCardsResult(),
             new ImageGroup(),
+            new VideoGroup(),
             new TopStoriesCarousel(),
             new TopStoriesVertical(),
             new TweetsCarousel(),
