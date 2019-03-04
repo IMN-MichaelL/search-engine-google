@@ -16,7 +16,9 @@ class AnswerBox implements ParsingRuleInterface
 
     public function match(GoogleDom $dom, \Serps\Core\Dom\DomElement $node)
     {
-        if ($node->getAttribute('class') == 'g mnr-c g-blk'
+        $nodeClasses = explode(' ', $node->getAttribute('class'));
+
+        if ($nodeClasses == array('g', 'mnr-c', 'g-blk')
             && (
                 $dom->cssQuery('.ifM9O', $node)->length == 1 ||
                 $dom->cssQuery('._Z7', $node)->length == 1      // TODO used for BC, remove in the future
