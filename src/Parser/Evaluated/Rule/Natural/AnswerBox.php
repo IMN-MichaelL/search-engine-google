@@ -18,7 +18,7 @@ class AnswerBox implements ParsingRuleInterface
     {
         $nodeClasses = explode(' ', $node->getAttribute('class'));
 
-        if (count(array_diff($nodeClasses, array('g', 'mnr-c', 'g-blk'))) == 0
+        if (count(array_diff(array('g', 'mnr-c', 'g-blk'), $nodeClasses)) == 0
             && (
                 $dom->cssQuery('.ifM9O', $node)->length == 1 ||
                 $dom->cssQuery('._Z7', $node)->length == 1      // TODO used for BC, remove in the future
