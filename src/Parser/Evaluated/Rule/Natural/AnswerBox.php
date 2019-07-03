@@ -16,7 +16,7 @@ class AnswerBox implements ParsingRuleInterface
 
     public function match(GoogleDom $dom, \Serps\Core\Dom\DomElement $node)
     {
-        if ((!$node->hasClasses(['kno-kp']) && $node->hasClasses(['g', 'mnr-c', 'g-blk']))
+        if ((!$node->hasClasses(['kno-kp']) && $dom->cssQuery('.g.mnr-c.g-blk', $node)->length)
             && (
                 $dom->cssQuery('.ifM9O', $node)->length == 1 ||
                 $dom->cssQuery('._Z7', $node)->length == 1      // TODO used for BC, remove in the future
@@ -48,7 +48,7 @@ class AnswerBox implements ParsingRuleInterface
                 return $dom->getUrl()->resolveAsString($aTag->getAttribute('href'));
             },
             'destination' => function () use ($dom, $node) {
-                $citeTag = $dom->cssQuery('.rc .s cite', $node)
+                $citeTag = $dom->cssQuery('.rc .r cite', $node)
                     ->item(0);
                 if (!$citeTag) {
                     // TODO ERROR
@@ -58,7 +58,7 @@ class AnswerBox implements ParsingRuleInterface
             },
             'description' => function () use ($dom, $node) {
                 // TODO "mod ._Tgc" kept for BC, remove in the future
-                $citeTag = $dom->cssQuery('.mod ._Tgc, .mod .Y0NH2b', $node)
+                $citeTag = $dom->cssQuery('.mod .LGOjhe, .mod .Y0NH2b', $node)
                     ->item(0);
                 if (!$citeTag) {
                     // TODO ERROR
