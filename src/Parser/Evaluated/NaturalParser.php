@@ -60,6 +60,12 @@ class NaturalParser extends AbstractParser
      */
     protected function getParsableItems(GoogleDom $googleDom)
     {
-        return $googleDom->xpathQuery("//div[@id = 'ires']/*[@id = 'rso']/*");
+        $results = $googleDom->xpathQuery("//div[@id = 'ires']/*[@id = 'rso']/*");
+
+        if (!$results->length) {
+            $results = $googleDom->xpathQuery("//div[@id = 'res']//*[@id = 'rso']/*");
+        }
+
+        return $results;
     }
 }
