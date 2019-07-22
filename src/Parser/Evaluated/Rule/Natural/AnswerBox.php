@@ -58,7 +58,7 @@ class AnswerBox implements ParsingRuleInterface
             },
             'description' => function () use ($dom, $node) {
                 // TODO "mod ._Tgc" kept for BC, remove in the future
-                $citeTag = $dom->cssQuery('.mod .LGOjhe, .mod .Y0NH2b', $node)
+                $citeTag = $dom->cssQuery('.mod .LGOjhe, .mod .Y0NH2b, .mod .Crs1tb', $node)
                     ->item(0);
                 if (!$citeTag) {
                     // TODO ERROR
