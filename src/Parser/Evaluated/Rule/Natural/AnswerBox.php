@@ -18,7 +18,7 @@ class AnswerBox implements ParsingRuleInterface
     {
         if ((!$node->hasClasses(['kno-kp']) && $dom->cssQuery('.g.mnr-c.g-blk', $node)->length)
             && (
-                $dom->cssQuery('.ifM9O', $node)->length == 1 ||
+                $dom->cssQuery('.ifM9O > .bNg8Rb', $node)->length == 1 ||
                 $dom->cssQuery('._Z7', $node)->length == 1      // TODO used for BC, remove in the future
             )
         ) {
