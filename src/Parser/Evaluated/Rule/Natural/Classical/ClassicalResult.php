@@ -18,7 +18,8 @@ class ClassicalResult implements ParsingRuleInterface
 
     public function match(GoogleDom $dom, \Serps\Core\Dom\DomElement $node)
     {
-        if ($node->hasClasses(['g'])) {
+        // some results also have a .jUmkFb
+        if ($node->hasClasses(['g']) && !$node->hasClasses(['mnr-c', 'g-blk'])) {
             if ($dom->cssQuery('.rc', $node)->length == 1) {
                 return self::RULE_MATCH_MATCHED;
             }
