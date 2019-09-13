@@ -18,7 +18,7 @@ class ClassicalResult implements ParsingRuleInterface
 
     public function match(GoogleDom $dom, \Serps\Core\Dom\DomElement $node)
     {
-        if ($node->getAttribute('class') == 'g') {
+        if ($node->hasClasses(['g'])) {
             if ($dom->cssQuery('.rc', $node)->length == 1) {
                 return self::RULE_MATCH_MATCHED;
             }
