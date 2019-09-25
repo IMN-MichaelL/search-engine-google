@@ -38,7 +38,7 @@ class GoogleSerp extends GoogleDom
     public function getNaturalResults()
     {
         if ($this->javascriptIsEvaluated()) {
-            if ($this->isMobile()) {
+            if (!$this->isDesktop()) {
                 $parser = new MobileNaturalParser();
             } else {
                 $parser = new EvaluatedNaturalParser();
@@ -123,7 +123,7 @@ class GoogleSerp extends GoogleDom
     public function getRelatedSearches()
     {
         $relatedSearches = [];
-        if ($this->isMobile()) {
+        if (!$this->isDesktop()) {
             $items = $this->cssQuery('#botstuff div:not(#bres)>._Qot>div>a');
             if ($items->length > 0) {
                 foreach ($items as $item) {
@@ -149,6 +149,12 @@ class GoogleSerp extends GoogleDom
 
 
         return $relatedSearches;
+    }
+
+    public function isDesktop()
+    {
+        $item = $this->cssQuery('body#gsr');
+        return $item->length == 1;
     }
 
     public function isMobile()
