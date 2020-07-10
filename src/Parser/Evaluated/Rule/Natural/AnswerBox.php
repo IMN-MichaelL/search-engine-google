@@ -18,7 +18,7 @@ class AnswerBox implements ParsingRuleInterface
     {
         if ((!$node->hasClasses(['kno-kp']) && $dom->cssQuery('.g.mnr-c.g-blk', $node)->length)
             && (
-                $dom->cssQuery('.ifM9O > .bNg8Rb', $node)->length == 1 ||
+                $dom->cssQuery('.ifM9O > h2', $node)->length == 1 ||
                 $dom->cssQuery('._Z7', $node)->length == 1      // TODO used for BC, remove in the future
             )
         ) {
@@ -62,13 +62,13 @@ class AnswerBox implements ParsingRuleInterface
             },
             'description' => function () use ($dom, $node) {
                 // TODO "mod ._Tgc" kept for BC, remove in the future
-                $citeTag = $dom->cssQuery('.mod .LGOjhe, .mod .Y0NH2b, .mod .Crs1tb', $node)
+                $descTag = $dom->cssQuery('.mod .LGOjhe, .mod .Y0NH2b, .mod .Crs1tb, .mod > div', $node)
                     ->item(0);
-                if (!$citeTag) {
+                if (!$descTag) {
                     // TODO ERROR
                     return;
                 }
-                return $citeTag->nodeValue;
+                return $descTag->nodeValue;
             },
         ];
     }
