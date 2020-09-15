@@ -69,6 +69,8 @@ abstract class AbstractParser
         $rules = $this->getRules();
 
         foreach ($elementGroups as $group) {
+            $matched = false;
+
             if (!($group instanceof \DOMElement)) {
                 continue;
             }
@@ -85,12 +87,20 @@ abstract class AbstractParser
                 } else {
                     switch ($match) {
                         case ParsingRuleInterface::RULE_MATCH_MATCHED:
+                            $matched = true;
                             $rule->parse($googleDom, $group, $resultSet);
                             break 2;
                         case ParsingRuleInterface::RULE_MATCH_STOP:
                             break 2;
                     }
                 }
+            }
+
+            // 9-15-20: google has changed their dom to include a wrapping div
+            // with no easily identifiable class or id, so lets try to feel our
+            // way through the dom
+            if (!$matched) {
+                $this->parseGroups($group->getChildren(), $resultSet, $googleDom);
             }
         }
         return $resultSet;
