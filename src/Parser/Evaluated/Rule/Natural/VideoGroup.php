@@ -20,7 +20,7 @@ class VideoGroup implements ParsingRuleInterface
 
     public function match(GoogleDom $dom, \Serps\Core\Dom\DomElement $node)
     {
-        if ($dom->cssQuery('.BFJZOc', $node)->length == 1) {
+        if ($dom->cssQuery('.BFJZOc, .e2BEnf', $node)->length == 1) {
             return self::RULE_MATCH_MATCHED;
         }
         return self::RULE_MATCH_NOMATCH;
