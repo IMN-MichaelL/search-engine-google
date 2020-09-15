@@ -18,7 +18,8 @@ class ImageGroup implements \Serps\SearchEngine\Google\Parser\ParsingRuleInterfa
 
     public function match(GoogleDom $dom, \Serps\Core\Dom\DomElement $node)
     {
-        if ($node->hasAttribute('id') && $node->getAttribute('id') == 'imagebox_bigimages') {
+        if ($node->hasAttribute('id') && $node->getAttribute('id') == 'imagebox_bigimages'
+            || $dom->cssQuery('.LnbJhc', $node)->length) {
             return self::RULE_MATCH_MATCHED;
         } else {
             return self::RULE_MATCH_NOMATCH;
