@@ -38,7 +38,7 @@ class GoogleSerp extends GoogleDom
     public function getNaturalResults()
     {
         if ($this->javascriptIsEvaluated()) {
-            if (!$this->isDesktop()) {
+            if ($this->isMobile()) {
                 $parser = new MobileNaturalParser();
             } else {
                 $parser = new EvaluatedNaturalParser();
