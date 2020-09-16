@@ -26,7 +26,7 @@ class PeopleAlsoAsk implements ParsingRuleInterface
 
     public function match(GoogleDom $dom, DomElement $node)
     {
-        if ($node->hasClasses(['kno-kp', 'mnr-c'])) {
+        if ($node->hasClasses(['g', 'kno-kp', 'mnr-c'])) {
             $childNodes = new DomNodeList($node->childNodes, $dom);
 
             if ($childNodes->hasAnyClass(['cUnQKe', '_thf'])) {  // TODO "_thf" kept for BC, remove in future
