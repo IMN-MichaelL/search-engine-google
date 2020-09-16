@@ -72,7 +72,7 @@ class GoogleSerp extends GoogleDom
      */
     public function getNumberOfResults()
     {
-        $item = $this->cssQuery('#resultStats');
+        $item = $this->cssQuery('#resultStats, #result-stats');
         if ($item->length != 1) {
             return null;
         }
@@ -123,8 +123,9 @@ class GoogleSerp extends GoogleDom
     public function getRelatedSearches()
     {
         $relatedSearches = [];
-        if (!$this->isDesktop()) {
+        if ($this->isMobile()) {
             $items = $this->cssQuery('#botstuff div:not(#bres)>._Qot>div>a');
+
             if ($items->length > 0) {
                 foreach ($items as $item) {
                     /* @var $item \DOMElement */
@@ -136,6 +137,7 @@ class GoogleSerp extends GoogleDom
             }
         } else {
             $items = $this->cssQuery('#brs .nVcaUb>a');
+
             if ($items->length > 0) {
                 foreach ($items as $item) {
                     /* @var $item \DOMElement */
@@ -144,9 +146,19 @@ class GoogleSerp extends GoogleDom
                     $result->url = $this->getUrl()->resolveAsString('https://www.google.com' . $item->getAttribute('href'));
                     $relatedSearches[] = $result;
                 }
+            } else {
+                $items = $this->cssQuery('#botstuff a');
+                if ($items->length > 0) {
+                    foreach ($items as $item) {
+                        /* @var $item \DOMElement */
+                        $result = new \stdClass();
+                        $result->title = $item->nodeValue;
+                        $result->url = $this->getUrl()->resolveAsString('https://www.google.com' . $item->getAttribute('href'));
+                        $relatedSearches[] = $result;
+                    }
+                }
             }
         }
-
 
         return $relatedSearches;
     }
