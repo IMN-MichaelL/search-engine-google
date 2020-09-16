@@ -60,7 +60,7 @@ class NaturalParser extends AbstractParser
      */
     protected function getParsableItems(GoogleDom $googleDom)
     {
-        $results = $googleDom->cssQuery('#rso, #rhs');
+        $results = $googleDom->cssQuery('#rso > *, #rhs');
 
         if ($results->length == 1) {
             $results = $results->item(0)->getChildren();
