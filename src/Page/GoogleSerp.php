@@ -156,6 +156,17 @@ class GoogleSerp extends GoogleDom
                         $result->url = $this->getUrl()->resolveAsString('https://www.google.com' . $item->getAttribute('href'));
                         $relatedSearches[] = $result;
                     }
+                } else {
+                    $items = $this->cssQuery('#bzMwOe a');
+                    if ($items->length > 0) {
+                        foreach ($items as $item) {
+                            /* @var $item \DOMElement */
+                            $result = new \stdClass();
+                            $result->title = $item->nodeValue;
+                            $result->url = $this->getUrl()->resolveAsString('https://www.google.com' . $item->getAttribute('href'));
+                            $relatedSearches[] = $result;
+                        }
+                    }
                 }
             }
         }
