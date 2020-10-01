@@ -33,7 +33,7 @@ class ClassicalResult implements ParsingRuleInterface
         // find the title/url
         /* @var $aTag \DOMElement */
         $aTag = $dom
-            ->cssQuery('.r a', $node)
+            ->cssQuery('a', $node)
             ->getNodeAt(0);
 
         if (!$aTag) {
@@ -67,6 +67,12 @@ class ClassicalResult implements ParsingRuleInterface
         $descriptionTag = $dom
             ->xpathQuery("descendant::span[@class='st']", $node)
             ->item(0);
+
+        if (!$descriptionTag) {
+            $descriptionTag = $dom
+                ->cssQuery('.rc > div:nth-child(2) span', $node)
+                ->getNodeAt(0);
+        }
 
         return [
             'title'   => $h3Tag->nodeValue,
