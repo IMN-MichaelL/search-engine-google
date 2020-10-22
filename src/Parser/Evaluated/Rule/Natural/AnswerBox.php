@@ -31,7 +31,7 @@ class AnswerBox implements ParsingRuleInterface
     {
         return [
             'title'   => function () use ($dom, $node) {
-                $aTag = $dom->cssQuery('.rc .r a', $node)
+                $aTag = $dom->cssQuery('.rc .r a, .rc a', $node)
                     ->item(0);
                 if (!$aTag) {
                     // TODO ERROR
@@ -43,7 +43,7 @@ class AnswerBox implements ParsingRuleInterface
                 return $aTag->nodeValue;
             },
             'url'     => function () use ($dom, $node) {
-                $aTag = $dom->cssQuery('.rc .r a', $node)
+                $aTag = $dom->cssQuery('.rc .r a, .rc a', $node)
                     ->item(0);
                 if (!$aTag) {
                     // TODO ERROR
@@ -52,7 +52,7 @@ class AnswerBox implements ParsingRuleInterface
                 return $dom->getUrl()->resolveAsString($aTag->getAttribute('href'));
             },
             'destination' => function () use ($dom, $node) {
-                $citeTag = $dom->cssQuery('.rc .r cite', $node)
+                $citeTag = $dom->cssQuery('.rc .r cite, .rc cite', $node)
                     ->item(0);
                 if (!$citeTag) {
                     // TODO ERROR
