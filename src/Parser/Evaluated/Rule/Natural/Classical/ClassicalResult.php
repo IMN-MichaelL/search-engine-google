@@ -16,14 +16,31 @@ use Serps\SearchEngine\Google\NaturalResultType;
 class ClassicalResult implements ParsingRuleInterface
 {
 
+    protected $divClass = 'rc';
+
     public function match(GoogleDom $dom, \Serps\Core\Dom\DomElement $node)
     {
-        // some results also have a .jUmkFb
         if ($node->hasClasses(['g']) && !$node->hasClasses(['mnr-c', 'g-blk'])) {
-            if ($dom->cssQuery('.rc', $node)->length == 1) {
+            // old structure where g > div.rc exists
+            if ($dom->cssQuery('.' . $this->divClass, $node)->length == 1) {
+                return self::RULE_MATCH_MATCHED;
+            }
+
+            // if no match above check if a heading tag exists with 'Web results' as the text
+            $heading = $dom->cssQuery('h2', $node);
+
+            if ($heading->length && $heading->item(0)->textContent == 'Web results') {
+                // lets try to make this learn how to find the elements
+                foreach ($node->childNodes as $child) {
+                    if ($child->nodeName == 'div') {
+                        $this->divClass = $child->getAttribute('class');
+                    }
+                }
+
                 return self::RULE_MATCH_MATCHED;
             }
         }
+
         return self::RULE_MATCH_NOMATCH;
     }
 
