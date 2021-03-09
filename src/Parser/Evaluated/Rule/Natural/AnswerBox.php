@@ -33,18 +33,21 @@ class AnswerBox implements ParsingRuleInterface
             'title'   => function () use ($dom, $node) {
                 $aTag = $dom->cssQuery('.rc .r a, .rc a', $node)
                     ->item(0);
-                if (!$aTag) {
-                    // TODO ERROR
-                    return;
+
+                if ($aTag) {
+                    return $aTag->nodeValue;
+                } else {
+                    if ($h3Tag = $dom->cssQuery('h3', $aTag)->item(0)) {
+                        return $h3Tag->getNodeValue();
+                    }
                 }
-                if ($h3Tag = $dom->cssQuery('h3', $aTag)->item(0)) {
-                    return $h3Tag->getNodeValue();
-                }
-                return $aTag->nodeValue;
+                // TODO: ERROR
+                return;
             },
             'url'     => function () use ($dom, $node) {
-                $aTag = $dom->cssQuery('.rc .r a, .rc a', $node)
+                $aTag = $dom->cssQuery('.rc .r a, .rc a, .g a', $node)
                     ->item(0);
+
                 if (!$aTag) {
                     // TODO ERROR
                     return;
@@ -52,8 +55,9 @@ class AnswerBox implements ParsingRuleInterface
                 return $dom->getUrl()->resolveAsString($aTag->getAttribute('href'));
             },
             'destination' => function () use ($dom, $node) {
-                $citeTag = $dom->cssQuery('.rc .r cite, .rc cite', $node)
+                $citeTag = $dom->cssQuery('.rc .r cite, .rc cite, .g cite', $node)
                     ->item(0);
+
                 if (!$citeTag) {
                     // TODO ERROR
                     return;
@@ -62,8 +66,9 @@ class AnswerBox implements ParsingRuleInterface
             },
             'description' => function () use ($dom, $node) {
                 // TODO "mod ._Tgc" kept for BC, remove in the future
-                $descTag = $dom->cssQuery('.mod .LGOjhe, .mod .Y0NH2b, .mod .Crs1tb, .mod > div', $node)
+                $descTag = $dom->cssQuery('.mod .LGOjhe, .ifM9O .LGOjhe, .mod .Y0NH2b, .mod .Crs1tb, .mod > div', $node)
                     ->item(0);
+
                 if (!$descTag) {
                     // TODO ERROR
                     return;
