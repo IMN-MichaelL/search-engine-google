@@ -31,19 +31,30 @@ class ClassicalResult implements ParsingRuleInterface
 
             if ($heading->length && $heading->item(0)->textContent == 'Web results') {
                 // lets try to make this learn how to find the elements
-                foreach ($node->childNodes as $child) {
-                    $childClass = $child->getAttribute('class');
-
-                    if ($child->nodeName == 'div' && $childClass) {
-                        $this->divClass = $child->getAttribute('class');
-                    }
-                }
+                $this->learnNewElementClass($node);
 
                 return self::RULE_MATCH_MATCHED;
             }
         }
 
         return self::RULE_MATCH_NOMATCH;
+    }
+
+    protected function learnNewElementClass($node)
+    {
+        foreach ($node->childNodes as $child) {
+            $childClass = $child->getAttribute('class');
+
+            if ($child->nodeName == 'div') {
+                if ($childClass) {
+                    $this->divClass = $child->getAttribute('class');
+                    return;
+                } else {
+                    // if there is no class we should try the childNode
+                    return $this->learnNewElementClass($child);
+                }
+            }
+        }
     }
 
     protected function parseNode(GoogleDom $dom, \DomElement $node)
@@ -89,7 +100,7 @@ class ClassicalResult implements ParsingRuleInterface
 
         if (!$descriptionTag) {
             $descriptionTag = $dom
-                ->cssQuery('.rc > div:nth-child(2) span', $node)
+                ->cssQuery('.' . $this->divClass . ' > div:nth-child(2) span', $node)
                 ->getNodeAt(0);
         }
 
@@ -101,8 +112,8 @@ class ClassicalResult implements ParsingRuleInterface
             'description' => $descriptionTag ? trim($descriptionTag->nodeValue) : null,
             'isAmp' => function () use ($dom, $node) {
                 return $dom
-                        ->cssQuery('.amp_r', $node)
-                        ->length > 0;
+                    ->cssQuery('.amp_r', $node)
+                    ->length > 0;
             },
         ];
     }
