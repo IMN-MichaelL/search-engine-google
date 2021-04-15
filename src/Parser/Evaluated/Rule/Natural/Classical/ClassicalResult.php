@@ -32,7 +32,9 @@ class ClassicalResult implements ParsingRuleInterface
             if ($heading->length && $heading->item(0)->textContent == 'Web results') {
                 // lets try to make this learn how to find the elements
                 foreach ($node->childNodes as $child) {
-                    if ($child->nodeName == 'div') {
+                    $childClass = $child->getAttribute('class');
+
+                    if ($child->nodeName == 'div' && $childClass) {
                         $this->divClass = $child->getAttribute('class');
                     }
                 }
