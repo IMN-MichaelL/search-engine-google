@@ -43,9 +43,9 @@ class ClassicalResult implements ParsingRuleInterface
     protected function learnNewElementClass($node)
     {
         foreach ($node->childNodes as $child) {
-            $childClass = $child->getAttribute('class');
-
             if ($child->nodeName == 'div') {
+                $childClass = $child->getAttribute('class');
+
                 if ($childClass) {
                     $this->divClass = $child->getAttribute('class');
                     return;

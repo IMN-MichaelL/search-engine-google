@@ -74,6 +74,7 @@ abstract class AbstractParser
             if (!($group instanceof \DOMElement)) {
                 continue;
             }
+
             foreach ($rules as $rule) {
                 $match = $rule->match($googleDom, $group);
                 if ($match instanceof \DOMNodeList) {
@@ -103,6 +104,7 @@ abstract class AbstractParser
                 $this->parseGroups($group->getChildren(), $resultSet, $googleDom);
             }
         }
+
         return $resultSet;
     }
 }

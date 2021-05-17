@@ -33,20 +33,21 @@ class PeopleAlsoAsk implements ParsingRuleInterface
                 return self::RULE_MATCH_MATCHED;
             }
         }
+
         return self::RULE_MATCH_NOMATCH;
     }
 
     public function parse(GoogleDom $dom, \DomElement $node, IndexedResultSet $resultSet)
     {
-
         $data = [
             'questions' => function () use ($dom, $node) {
                 $items = [];
                 $nodes = $dom->cssQuery('._sgo>._qgo, .related-question-pair', $node);  // TODO "._sgo>._qgo" kept for BC
+
                 foreach ($nodes as $questionNode) {
                     $items[] = new BaseResult(NaturalResultType::PAA_QUESTION, [
                         'question' => function () use ($questionNode, $dom) {
-                            return $questionNode->getNodeValue();
+                            return trim($questionNode->getNodeValue());
                         }
                     ]);
                 }

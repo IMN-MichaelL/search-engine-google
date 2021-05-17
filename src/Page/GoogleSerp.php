@@ -136,38 +136,42 @@ class GoogleSerp extends GoogleDom
                 }
             }
         } else {
-            $items = $this->cssQuery('#brs .nVcaUb>a');
+            // in an attempt to maintain compatibility for multiple dom configurations
+            // we're going to work through a list possible queries
+            $potentialCssQueries = array(
+                '#brs .nVcaUb>a',
+                '#botstuff a',
+                '#bzMwOe a',
+                '#w3bYAd a.k8XOCe', // latest addition
+            );
 
-            if ($items->length > 0) {
-                foreach ($items as $item) {
-                    /* @var $item \DOMElement */
-                    $result = new \stdClass();
-                    $result->title = $item->nodeValue;
-                    $result->url = $this->getUrl()->resolveAsString('https://www.google.com' . $item->getAttribute('href'));
-                    $relatedSearches[] = $result;
+            foreach ($potentialCssQueries as $query) {
+                $items = $this->cssQuery($query);
+                $relatedSearches = $this->processItems($items);
+
+                if ($relatedSearches) {
+                    return $relatedSearches;
                 }
-            } else {
-                $items = $this->cssQuery('#botstuff a');
-                if ($items->length > 0) {
-                    foreach ($items as $item) {
-                        /* @var $item \DOMElement */
-                        $result = new \stdClass();
-                        $result->title = $item->nodeValue;
-                        $result->url = $this->getUrl()->resolveAsString('https://www.google.com' . $item->getAttribute('href'));
-                        $relatedSearches[] = $result;
-                    }
-                } else {
-                    $items = $this->cssQuery('#bzMwOe a');
-                    if ($items->length > 0) {
-                        foreach ($items as $item) {
-                            /* @var $item \DOMElement */
-                            $result = new \stdClass();
-                            $result->title = $item->nodeValue;
-                            $result->url = $this->getUrl()->resolveAsString('https://www.google.com' . $item->getAttribute('href'));
-                            $relatedSearches[] = $result;
-                        }
-                    }
-                }
+            }
+        }
+
+        return $relatedSearches;
+    }
+
+    private function processItems($items)
+    {
+        $relatedSearches = [];
+
+        if ($items->length > 0) {
+            foreach ($items as $item) {
+                /* @var $item \DOMElement */
+
+                $result = new \stdClass();
+                $result->title = trim($item->nodeValue);
+                // $result->url = $this->getUrl()->resolveAsString($item->getAttribute('href'));
+                $result->url = $this->getUrl()->resolveAsString('https://www.google.com' . $item->getAttribute('href'));
+
+                array_push($relatedSearches, $result);
             }
         }
 
